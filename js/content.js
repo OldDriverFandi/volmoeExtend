@@ -14,7 +14,8 @@ let downloadCount = 0;
 $(document).ready(function () {
     let deckDom = $("#desc_text");
     if (deckDom.length) {
-        $("#nav_mobi").trigger("click");
+        let $navMobi = $("#nav_mobi");
+        $navMobi.trigger("click");
         total = $("#quota_login").text().match(/\d+/);
 
         let table = $(".book_list");
@@ -35,27 +36,53 @@ $(document).ready(function () {
         innerHTML += "</p>"
         deckDom.html(deckDom.html() + innerHTML);
 
-        let checkboxDom = null;
         setTimeout(() => {
-            checkboxDom = $("input:checkbox");
-            checkboxDom.each(function () {
+            $("input:checkbox").each(function () {
                 $(this).click(function () {
+                    let mobiCheck = $navMobi.hasClass("tab_check");
+                    let epubCheck = $("#nav_epub").hasClass("tab_check");
+                    if (!mobiCheck && !epubCheck) {
+                        alert("请点击下载选项卡")
+                        return
+                    }
                     updateUse();
                 });
             })
         }, 500);
 
         $('#allSelect').on('click', function () {
-            checkboxDom.attr("checked", "true");
+            let mobiCheck = $navMobi.hasClass("tab_check");
+            let epubCheck = $("#nav_epub").hasClass("tab_check");
+            if (!mobiCheck && !epubCheck) {
+                alert("请点击下载选项卡")
+                return
+            }
+            $("input:checkbox").attr("checked", "true");
             updateUse();
         });
 
         $('#allNoSelect').on('click', function () {
-            checkboxDom.removeAttr("checked");
+            let mobiCheck = $navMobi.hasClass("tab_check");
+            let epubCheck = $("#nav_epub").hasClass("tab_check");
+            if (!mobiCheck && !epubCheck) {
+                alert("请点击下载选项卡")
+                return
+            }
+            $("input:checkbox").removeAttr("checked");
             updateUse()
         });
 
         $('#download').on('click', function () {
+            let mobiCheck = $navMobi.hasClass("tab_check");
+            let epubCheck = $("#nav_epub").hasClass("tab_check");
+            if (!mobiCheck && !epubCheck) {
+                alert("请点击下载选项卡")
+                return
+            }
+            let type = 1;
+            if (epubCheck) {
+                type = 2;
+            }
             if (downloadCount > 0) {
                 alert("当前正在下载，不要重复点击！")
                 return;
@@ -64,16 +91,16 @@ $(document).ready(function () {
             downloadCount = checkVolDom.length;
             let count = 0;
             checkVolDom.each(function () {
-                download($(this).val(), 30000 * count++);
+                download($(this).val(), 30000 * count++, type);
             });
         });
     }
 });
 
-function download(val, timeout) {
+function download(val, timeout, type) {
     let waitDownload = setTimeout(() => {
         downloadCount--;
-        window.open(domain + "/down/" + bookIndex + "/" + val + "/1/1/1-0/", "_blank");
+        window.open(domain + "/down/" + bookIndex + "/" + val + "/1/" + type + "/1-0/", "_blank");
         clearTimeout(waitDownload);
     }, timeout);
 }

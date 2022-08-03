@@ -33,7 +33,7 @@ $(document).ready(function () {
         innerHTML += "<button style='margin-right: 10px' id='allNoSelect'> 全不选 </button>";
         innerHTML += "<button id='download'> 下载 </button>";
         innerHTML += "</p>"
-        deckDom.html(innerHTML);
+        deckDom.html(deckDom.html() + innerHTML);
 
         let checkboxDom = null;
         setTimeout(() => {

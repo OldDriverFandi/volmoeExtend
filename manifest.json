@@ -1,0 +1,52 @@
+{
+  "manifest_version": 2,
+  "name": "vol.moe下载扩展",
+  "version": "1.0.0",
+  "description": "vol.moe 这个网站非 VIP用户下载漫画只能一个一个点，太不方便了，用这个插件来批量下载！岂不美哉？",
+  "icons": {
+    "16": "img/volmoe.ico",
+    "48": "img/volmoe.ico",
+    "128": "img/volmoe.ico"
+  },
+  "background": {
+    "scripts": [
+      "js/background.js"
+    ]
+  },
+  "page_action": {
+    "default_icon": "img/volmoe.ico",
+    "default_title": "vol.moe下载扩展",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://mox.moe/*",
+        "https://vol.moe/*"
+      ],
+      "js": [
+        "js/jquery-1.8.3.js",
+        "js/content.js"
+      ],
+      "run_at": "document_start"
+    }
+  ],
+  "permissions": [
+    "contextMenus",
+    "tabs",
+    "notifications",
+    "webRequest",
+    "storage",
+    "http://*/*",
+    "https://*/*"
+  ],
+  "options_ui": {
+    "page": "options.html",
+    "chrome_style": true
+  },
+  "web_accessible_resources": ["js/inject.js"],
+  "omnibox": {
+    "keyword": "go"
+  }
+}
+
